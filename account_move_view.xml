@@ -13,3 +13,21 @@
         </field>
     </record>
 </odoo>
+<odoo>
+    <record id="view_move_form_discount_totals" model="ir.ui.view">
+        <field name="name">account.move.form.discount.totals</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='o_group o_inner_group']/div[hasclass('o_invoice_total')]"
+                   position="inside">
+                <div>
+                    <field name="total_discount" class="o_inline" readonly="1"/>
+                    <label for="total_discount"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+
