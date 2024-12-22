@@ -1,0 +1,100 @@
+<odoo>
+    <template id="report_custom_invoice">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page" style="width: 9.5in; height: 11in; padding: 0.5in;">
+                    <style>
+                        @page {
+                            size: 9.5in 11in; /* Ukuran kertas 9.5 x 11 inci */
+                            margin: 0;
+                        }
+
+                        body {
+                            font-family: 'Arial', sans-serif;
+                            font-size: 12px;
+                        }
+
+                        header {
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            height: 1in;
+                            text-align: center;
+                            font-size: 12px;
+                            background-color: #f5f5f5;
+                            padding: 10px;
+                        }
+
+                        footer {
+                            position: fixed;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                            height: 1in;
+                            text-align: center;
+                            font-size: 10px;
+                            background-color: #f5f5f5;
+                            padding: 5px;
+                        }
+
+                        .content {
+                            margin-top: 1in;
+                            margin-bottom: 1in;
+                            page-break-inside: avoid; /* Hindari pemotongan konten di tengah */
+                        }
+
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
+
+                        th, td {
+                            border: 1px solid #000;
+                            padding: 5px;
+                            text-align: left;
+                        }
+                    </style>
+
+                    <!-- Header -->
+                    <header>
+                        <h2>Custom Invoice</h2>
+                        <p>Invoice Number: <t t-esc="o.name"/></p>
+                        <p>Customer: <t t-esc="o.partner_id.name"/></p>
+                    </header>
+
+                    <!-- Body -->
+                    <div class="content">
+                        <h3>Invoice Lines</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.invoice_line_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line.name"/></td>
+                                        <td><t t-esc="line.quantity"/></td>
+                                        <td><t t-esc="line.price_unit"/></td>
+                                        <td><t t-esc="line.price_subtotal"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer>
+                        <p>Page <t t-esc="page.number"/>/<t t-esc="page.total"/></p>
+                        <p>Custom Footer Content © 2024</p>
+                    </footer>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
