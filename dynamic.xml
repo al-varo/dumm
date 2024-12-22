@@ -1,0 +1,97 @@
+<t t-name="account.report_invoice_document">
+    <t t-foreach="docs" t-as="doc">
+        <!-- Kontainer Utama -->
+        <div class="invoice-container">
+            
+            <!-- Header dan Konten Utama -->
+            <div class="invoice-content">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Deskripsi</th>
+                            <th>Jumlah</th>
+                            <th>Harga</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Baris Faktur -->
+                        <tr t-foreach="doc.invoice_line_ids" t-as="line" t-att-class="'no-break'">
+                            <td><span t-field="line.name"/></td>
+                            <td><span t-field="line.quantity"/></td>
+                            <td><span t-field="line.price_unit"/></td>
+                            <td><span t-field="line.price_subtotal"/></td>
+                        </tr>
+
+                        <!-- Baris Kosong Jika Tidak Ada Data -->
+                        <tr t-if="len(doc.invoice_line_ids) == 0">
+                            <td colspan="4" style="text-align: center;">Tidak ada data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <t t-if="page == page_count">
+                <div class="invoice-footer no-break">
+                    <table class="table">
+                        <tr>
+                            <td>Subtotal:</td>
+                            <td><span t-field="doc.amount_untaxed"/></td>
+                        </tr>
+                        <tr>
+                            <td>Pajak:</td>
+                            <td><span t-field="doc.amount_tax"/></td>
+                        </tr>
+                        <tr>
+                            <td>Total:</td>
+                            <td><strong><span t-field="doc.amount_total"/></strong></td>
+                        </tr>
+                    </table>
+
+                    <div class="signature-section">
+                        <p>Ditandatangani oleh:</p>
+                        <p>__________________________</p>
+                        <p>Tanda Tangan Penerima</p>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <!-- CSS -->
+    <style>
+        /* Struktur Kontainer Utama */
+        .invoice-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100%;
+        }
+
+        .invoice-content {
+            flex-grow: 1; /* Konten dapat mengisi ruang yang tersedia */
+        }
+
+        /* Footer Default */
+        .invoice-footer {
+            margin-top: 20px; /* Jarak standar antara konten dan footer */
+        }
+
+        /* Mencegah Potongan Konten */
+        .no-break {
+            page-break-inside: avoid;
+        }
+
+        /* Header Kolom Tabel Diulang di Setiap Halaman */
+        .table thead {
+            display: table-header-group;
+        }
+
+        /* Tanda Tangan */
+        .signature-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</t>
