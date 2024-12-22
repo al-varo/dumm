@@ -1,0 +1,105 @@
+<t t-name="account.report_invoice_document">
+    <t t-foreach="docs" t-as="doc">
+        <div class="invoice-container">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h2>Nama Perusahaan</h2>
+                    <t t-if="page == 1">
+                        <p class="address">Alamat: Jalan ABC No. 123, Kota XYZ</p>
+                    </t>
+                </div>
+                <div class="header-right">
+                    <p>Halaman <span t-esc="page"/>/<span t-esc="page_count"/></p>
+                </div>
+            </div>
+
+            <!-- Konten Utama -->
+            <div class="invoice-content">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Deskripsi</th>
+                            <th>Jumlah</th>
+                            <th>Harga</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                            <td><span t-field="line.name"/></td>
+                            <td><span t-field="line.quantity"/></td>
+                            <td><span t-field="line.price_unit"/></td>
+                            <td><span t-field="line.price_subtotal"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <t t-if="page == page_count">
+                <div class="invoice-footer">
+                    <table class="table">
+                        <tr>
+                            <td>Subtotal:</td>
+                            <td><span t-field="doc.amount_untaxed"/></td>
+                        </tr>
+                        <tr>
+                            <td>Pajak:</td>
+                            <td><span t-field="doc.amount_tax"/></td>
+                        </tr>
+                        <tr>
+                            <td>Total:</td>
+                            <td><strong><span t-field="doc.amount_total"/></strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <!-- CSS -->
+    <style>
+        /* Struktur Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .header-left {
+            text-align: left;
+            max-width: 70%; /* Pastikan teks kiri tidak menabrak teks kanan */
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .address {
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* Header diulang di setiap halaman */
+        .header {
+            display: table-header-group;
+        }
+
+        /* Tabel */
+        .table thead {
+            display: table-header-group;
+        }
+
+        /* Footer */
+        .invoice-footer {
+            margin-top: 20px;
+            page-break-inside: avoid;
+        }
+    </style>
+</t>
