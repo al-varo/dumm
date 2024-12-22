@@ -1,0 +1,147 @@
+<t t-name="account.report_invoice_document">
+    <t t-foreach="docs" t-as="doc">
+        <div class="invoice-container">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h2>Nama Perusahaan</h2>
+                    <t t-if="page == 1">
+                        <p class="address">Alamat: Jalan ABC No. 123, Kota XYZ</p>
+                    </t>
+                </div>
+                <div class="header-right">
+                    <p>Halaman <span t-esc="page"/>/<span t-esc="page_count"/></p>
+                </div>
+            </div>
+
+            <!-- Konten Utama -->
+            <div class="invoice-content">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Deskripsi</th>
+                            <th class="text-center">Jumlah</th>
+                            <th class="text-right">Harga</th>
+                            <th class="text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                            <td><span t-field="line.name"/></td>
+                            <td class="text-center"><span t-field="line.quantity"/></td>
+                            <td class="text-right"><span t-field="line.price_unit"/></td>
+                            <td class="text-right"><span t-field="line.price_subtotal"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <t t-if="page == page_count">
+                <div class="invoice-footer">
+                    <table class="footer-table">
+                        <tr>
+                            <td class="footer-placeholder"></td>
+                            <td class="footer-content">
+                                <table>
+                                    <tr>
+                                        <td>Subtotal:</td>
+                                        <td class="text-right"><span t-field="doc.amount_untaxed"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pajak:</td>
+                                        <td class="text-right"><span t-field="doc.amount_tax"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total:</td>
+                                        <td class="text-right"><strong><span t-field="doc.amount_total"/></strong></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <!-- CSS -->
+    <style>
+        /* Struktur Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .header-left {
+            text-align: left;
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .address {
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* Tabel */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th, .table td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .table .text-center {
+            text-align: center;
+        }
+
+        .table .text-right {
+            text-align: right;
+        }
+
+        /* Footer */
+        .invoice-footer {
+            margin-top: 20px;
+        }
+
+        .footer-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .footer-placeholder {
+            width: 33%;
+        }
+
+        .footer-content {
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .footer-content table {
+            float: right;
+            width: auto;
+        }
+
+        .footer-content td {
+            padding: 4px 8px;
+        }
+
+        .footer-content .text-right {
+            text-align: right;
+        }
+    </style>
+</t>
