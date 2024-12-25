@@ -1,0 +1,3 @@
+<xpath expr="//field[@name='price_unit']" position="after">
+    <field name="fixed_discount" />
+</xpath>
